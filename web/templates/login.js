@@ -21,11 +21,11 @@ function getData(){
             error: function(response){
                 //alert(JSON.stringify(response));
                 if(response['status']==401){
-
                     $('#fail').show()
                 }
                 else{
-
+                    var url = 'http://' + document.domain + ':' + location.port + '/static/Chat.html?username=' + username;
+                    $(location).attr('href',url);
                    $('#success').show()
                 }
             }

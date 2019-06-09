@@ -17,7 +17,6 @@ def index():
 def static_content(content):
     return render_template(content)
 
-
 @app.route('/users', methods = ['GET'])
 def get_users():
     session = db.getSession(engine)
@@ -47,6 +46,21 @@ def create_test_users():
     db_session.commit()
     return "Test user created!"
 
+@app.route('/messages', methods = ['POST'])
+def create_message():
+    message = json.loads(request.data)
+    mensaje = message['mensaje']
+    user_to_id = message['user_to_id']
+    user_from = message['user_from_id']
+    mensaje_a_mandar = entities.Message(
+        content = mensaje,
+        user_from_id = user_to_id,
+        user_to_id = user_from
+    )
+    session = db.getSession(engine)
+    session.add(mensaje_a_mandar)
+    session.commit()
+    return 'Mensaje enviado'
 @app.route('/users', methods = ['POST'])
 def create_user():
     c =  json.loads(request.form['values'])
