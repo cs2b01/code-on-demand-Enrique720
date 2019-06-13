@@ -1,6 +1,7 @@
 function getData(){
-        $('#fail').hide()
-        $('#success').hide()
+        $('#fail').hide();
+        $('#ok').hide()
+        $('#loading').show();
         var username = $('#username').val();
         var password = $('#password').val();
         var message = JSON.stringify({
@@ -15,18 +16,16 @@ function getData(){
             data : message,
             dataType:'json',
             success: function(response){
-                //alert(JSON.stringify(response));
                 //$('#action').html(response['statusText']);
             },
             error: function(response){
                 //alert(JSON.stringify(response));
                 if(response['status']==401){
+                    $('#loading').hide();
                     $('#fail').show()
-                }
-                else{
-                    var url = 'http://' + document.domain + ':' + location.port + '/static/Chat.html?username=' + username;
-                    $(location).attr('href',url);
-                   $('#success').show()
+                }else{
+                    $('#loading').hide();
+                    $('#ok').show()
                 }
             }
         });
